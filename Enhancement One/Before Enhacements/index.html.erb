@@ -1,0 +1,102 @@
+<div>
+  <div>
+    <h1>
+      List of all categories
+    </h1>
+  </div>
+</div>
+
+<hr>
+
+<div>
+  <div>
+    <h2>
+      Add a new category
+    </h2>
+
+    <form action="/insert_category" method="post">
+      <div>
+        <label for="landlord_id_box">
+          Landlord
+        </label>
+
+        <input type="text" id="landlord_id_box" name="query_landlord_id">
+      </div>
+
+      <div>
+        <label for="category_box">
+          Category
+        </label>
+
+        <input type="text" id="category_box" name="query_category">
+      </div>
+
+      <button>
+        Create category
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
+<div>
+  <div>
+    <table border="1">
+      <tr>
+        <th>
+          ID
+        </th>
+
+        <th>
+          Landlord
+        </th>
+
+        <th>
+          Category
+        </th>
+
+        <th>
+          Created at
+        </th>
+
+        <th>
+          Updated at
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @list_of_categories.each do |a_category| %>
+      <tr>
+        <td>
+          <%= a_category.id %>
+        </td>
+
+        <td>
+          <%= a_category.landlord_id %>
+        </td>
+
+        <td>
+          <%= a_category.category %>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(a_category.created_at) %> ago
+        </td>
+        <td>
+          <%= time_ago_in_words(a_category.updated_at) %> ago
+        </td>
+
+        <td>
+          <a href="/categories/<%= a_category.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<hr>

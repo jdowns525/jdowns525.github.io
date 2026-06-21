@@ -1,0 +1,197 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+      <div class="card-body">
+        <div class="card-header">
+          <h1 class="card-title">Review #<%= @the_review.id %> Details</h1>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-8 offset-md-2">
+                <div class="d-flex justify-content-between align-items-center">
+                  <a href="/reviews" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Go back</a>
+                  <a><%= form_with(url: "/reviews/#{@the_review.id}", method: "delete", html: { onsubmit: "return confirm('Are you sure you want to delete?')" }) do %>
+                    <%= submit_tag("Delete", class: "btn btn-danger") %></a>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-8 offset-md-2">
+                <dl class="row">
+                  <dt class="col-sm-3 font-weight-bold">Stars</dt>
+                  <dd class="col-sm-9"><%= @the_review.stars %></dd>
+                  <dt class="col-sm-3 font-weight-bold">Date of Vacancy</dt>
+                  <dd class="col-sm-9"><%= @the_review.date_vacancy %></dd>
+                  <dt class="col-sm-3 font-weight-bold">Date of Occupancy</dt>
+                  <dd class="col-sm-9"><%= @the_review.date_occupancy %></dd>
+                  <dt class="col-sm-3 font-weight-bold">Text</dt>
+                  <dd class="col-sm-9"><%= @the_review.text %></dd>
+                  <dt class="col-sm-3 font-weight-bold">Useful</dt>
+                  <dd class="col-sm-9"><%= @the_review.useful %></dd>
+                  <dt class="col-sm-3 font-weight-bold">Maintenance?</dt>
+                  <dd class="col-sm-9"><%= @the_review.maintenance_and_repairs %></dd>
+                  <dt class="col-sm-3 font-weight-bold">Respect?</dt>
+                  <dd class="col-sm-9"><%= @the_review.respectfulness %></dd>
+                  <dt class="col-sm-3 font-weight-bold">Response Time?</dt>
+                  <dd class="col-sm-9"><%= @the_review.responsiveness %></dd>
+                  <dt class="col-sm-3 font-weight-bold">Landlord</dt>
+                  <dd class="col-sm-9"><%= @the_review.landlord_id %></dd>
+                  <dt class="col-sm-3 font-weight-bold">User</dt>
+                  <dd class="col-sm-9"><%= @the_review.user_id %></dd>
+                  <dt class="col-sm-3 font-weight-bold">City</dt>
+                  <dd class="col-sm-9"><%= @the_review.city %></dd>
+                  <dt class="col-sm-3 font-weight-bold">Updated at</dt>
+                  <dd class="col-sm-9"><%= time_ago_in_words(@the_review.updated_at) %> ago</dd>
+                </dl>
+              </div>
+            </div>
+<% if @current_user == nil %>
+<% else %>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">
+  Edit
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Edit</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <%= form_with url: review_path(@the_review), method: :patch do |f| %>
+        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+
+        <div class="form-group">
+          <label for="stars_box" class="form-label">Stars</label>
+          <input type="number" min="1" max="5" id="stars_box" name="query_stars" value="<%= @the_review.stars %>" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="date_box" class="form-label">Date of Vacancy</label>
+          <input type="datetime-local" id="date_box" name="query_date_vacancy" value="<%= @the_review.date_vacancy %>" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="date_box2" class="form-label">Date of Occupancy</label>
+          <input type="datetime-local" id="date_box2" name="query_date_occupancy" value="<%= @the_review.date_occupancy %>" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="text_box" class="form-label">Text</label>
+          <textarea id="text_box" name="query_text" class="form-control"><%= @the_review.text %></textarea>
+        </div>
+
+       <div class="form-group">
+          <label for="useful_box" class="form-label">Useful</label>
+          <input type="radio" id="useful_yes" name="query_useful" value="yes" <%= "checked" if @the_review.useful == "yes" %> class="form-control">Yes
+          <input type="radio" id="useful_no" name="query_useful" value="no" <%= "checked" if @the_review.useful == "no" %> class="form-control">No
+        </div>
+
+        <div class="form-group">
+          <label for="maintenance_box" class="form-label">Maintenance?</label>
+          <input type="radio" id="maintenance_yes" name="query_maintenance_and_repairs" value="yes" <%= "checked" if @the_review.maintenance_and_repairs == "yes" %> class="form-control">Yes
+          <input type="radio" id="maintenance_no" name="query_maintenance_and_repairs" value="no" <%= "checked" if @the_review.maintenance_and_repairs == "no" %> class="form-control">No
+        </div>
+
+        <div class="form-group">
+          <label for="respect_box" class="form-label">Respect?</label>
+          <input type="radio" id="respect_yes" name="query_respectfulness" value="yes" <%= "checked" if @the_review.respectfulness == "yes" %> class="form-control">Yes
+          <input type="radio" id="respect_no" name="query_respectfulness" value="no" <%= "checked" if @the_review.respectfulness == "no" %> class="form-control">No
+        </div>
+
+        <div class="form-group">
+          <label for="response_box" class="form-label">Response Time?</label>
+          <input type="radio" id="response_yes" name="query_responsiveness" value="yes" <%= "checked" if @the_review.responsiveness == "yes" %> class="form-control">Yes
+          <input type="radio" id="response_no" name="query_responsiveness" value="no" <%= "checked" if @the_review.responsiveness == "no" %> class="form-control">No
+        </div>
+
+        <div class="form-group">
+          <label for="landlord_id_box" class="form-label">Landlord</label>
+          <input type="text" id="landlord_id_box" name="query_landlord_id" value="
+          <%= @the_review.landlord_id %>" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="user_id_box" class="form-label">User</label>
+          <input type="text" id="user_id_box" name="query_user_id" value="<%= @the_review.user_id %>" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="city_box" class="form-label">City</label>
+          <input type="text" id="city_box" name="query_city" value="<%= @the_review.city %>" class="form-control">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button class="btn btn-primary" type="submit">Update Review</button>
+      </div>
+      </form>
+      <% end %>
+    </div>
+  </div>
+</div>
+</div>
+        </div>
+      </div>
+    </div>
+    <hr>
+<%end%>
+
+<% if @current_user %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 offset-lg-3">
+      <h2 class="text-center mb-4">Messages</h2>
+      <ul class="list-group">
+        <% @messages.each do |message| %>
+          <li class="list-group-item">
+            <strong><%= message.user.email %> :</strong> <%= message.content %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-lg-6 offset-lg-3">
+      <h2 class="text-center mb-4">Contact Reviewer</h2>
+      <%= form_with url: messages_path, method: :post do |f| %>
+        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+        <%= hidden_field_tag "query_review_id", @the_review.id %>
+        <%= hidden_field_tag "query_user_id", @current_user.id %>
+  <div class="mb-3">
+          <label for="message_content" class="form-label">Message</label>
+          <textarea id="message_content" name="query_content" class="form-control"></textarea>
+        </div>
+
+        <div class="d-grid">
+          <button class="btn btn-primary" type="submit">Send Message</button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+    </div>
+  <% end %>
+  </body>
+              
+  <style>
+    body {
+      margin-top: 20px;
+    }
+    .card {
+      margin-bottom: 20px;
+    }
+  </style>

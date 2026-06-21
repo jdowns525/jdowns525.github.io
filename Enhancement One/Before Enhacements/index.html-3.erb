@@ -1,0 +1,159 @@
+<div class="container">
+<hr>
+<div class="container">
+  <div class="card">
+    <div class="card-header">Reviews</div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+
+            <tr>
+              
+              <th>Landlord</th>
+              <th>Move/Out</th>
+              <th>Move/In</th>
+              <th>Caption</th>
+              <th>Useful</th>
+              <th>Maintenance?</th>
+              <th>Respectful?</th>
+              <th>Responsive?</th>
+              <th>Stars</th>
+              <th>User</th>
+              <th>City</th>
+              <th>Updated</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @reviews.each do |a_review| %>
+            <tr>
+              
+              <td><%= link_to a_review.landlord_id, landlord_path(a_review.landlord) %></td>
+              <td><%= a_review.date_occupancy %></td>
+              <td><%= a_review.date_vacancy %></td>
+              <td><%= a_review.text %></td>
+              <td><%= a_review.useful %></td>
+              <td><%= a_review.maintenance_and_repairs %></td>
+              <td><%= a_review.respectfulness %></td>
+              <td><%= a_review.responsiveness %></td>
+              <td><%= a_review.stars %></td>
+              <td><%= a_review.user_id %></td>
+              <td><%= a_review.city %></td>
+              <td><%= time_ago_in_words(a_review.updated_at) %> ago</td>
+              <td><a href="/reviews/<%= a_review.id %>" class="btn btn-primary"> Details</a></td>
+              
+            <% end %>
+          </tbody>
+        </table>
+        <%= will_paginate @reviews %>
+      </div>
+    </div>
+  </div>
+
+
+<hr>
+
+<% if @current_user != nil %>
+<div class="alert alert-info" role="alert">
+    Please input the landlord's ID in the landlord box. The landlord ID can be found on the landlord's record details page.
+</div>
+
+<button type="button" class="btn btn-primary my-4" data-bs-toggle="modal" data-bs-target="#writeReviewModal">
+    Write a Review
+</button>
+
+<div class="modal fade" id="writeReviewModal" tabindex="-1" aria-labelledby="writeReviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="writeReviewModalLabel">Review Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/reviews" method="post">
+                    <div class="mb-3 row">
+                        <label for="date_vacancy_box" class="col-md-4 col-form-label">Move/Out</label>
+                        <div class="col-md-8">
+                            <input type="date" class="form-control" id="date_vacancy_box" name="query_date_vacancy" value="<%= Time.now.strftime('%Y-%m-%d') %>">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="date_occupancy_box" class="col-md-4 col-form-label">Move/In</label>
+                        <div class="col-md-8">
+                            <input type="date" class="form-control" id="date_occupancy_box" name="query_date_occupancy" value="<%= Time.now.strftime('%Y-%m-%d') %>">
+                        </div>
+                        </div>
+                     <div class="mb-3 row">
+                        <label for="text_box" class="col-md-4 col-form-label">Description</label>
+                        <div class="col-md-8">
+                            <textarea class="form-control" id="text_box" name="query_text" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="city_box" class="col-md-4 col-form-label">City</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="city_box" name="query_city">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="landlord_id_box" class="col-md-4 col-form-label">Landlord ID</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="landlord_id_box" name="query_landlord_id">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="stars_box" class="col-md-4 col-form-label">Stars</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="stars_box" name="query_stars">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="useful_box" class="col-md-4 col-form-label">Useful?</label>
+                        <div class="col-md-8">
+                            <select class="form-control" id="useful_box" name="query_useful">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="maintenance_box" class="col-md-4 col-form-label">Maintenance?</label>
+                        <div class="col-md-8">
+                            <select class="form-control" id="maintenance_box" name="query_maintenance_and_repairs">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="respect_box" class="col-md-4 col-form-label">Respect?</label>
+                        <div class="col-md-8">
+                            <select class="form-control" id="respect_box" name="query_respectfulness">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="response_box" class="col-md-4 col-form-label">Response?</label>
+                        <div class="col-md-8">
+                            <select class="form-control" id="response_box" name="query_responsiveness">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Create Review</button>
+                    </div>
+                </form>
+         </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<% end %>

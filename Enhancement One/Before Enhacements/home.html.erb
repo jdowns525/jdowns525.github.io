@@ -1,0 +1,76 @@
+<div class="container">
+  <div class="row mb-4">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h1 class="card-title">MyLandlordRatings</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-center">
+            <%= form_with(url: "/landlords", method: "get", local: true, html: { class: "form-inline" }) do %>
+              <div class="input-group">
+                <input type="text" class="form-control" name="search" placeholder="Search by landlord, address, or neighborhood...">
+                <div class="input-group-append">
+                  <%= submit_tag("Search", class: "btn btn-primary") %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+          <div class="d-flex justify-content-center">
+            <small class="form-text text-muted">Enter a landlord name, address, or neighborhood to search</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ Moved reviews table inside same container -->
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Stars</th>
+                  <th>Occupancy Date</th>
+                  <th>Vacancy Date</th>
+                  <th>Review Text</th>
+                  <th>Useful</th>
+                  <th>City</th>
+                  <th>Maintenance & Repairs</th>
+                  <th>Respectfulness</th>
+                  <th>Responsiveness</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @reviews.each do |review| %>
+                  <tr>
+                    <td><%= review.stars %></td>
+                    <td><%= review.date_occupancy %></td>
+                    <td><%= review.date_vacancy %></td>
+                    <td><%= review.text %></td>
+                    <td><%= review.useful %></td>
+                    <td><%= review.city %></td>
+                    <td><%= review.maintenance_and_repairs %></td>
+                    <td><%= review.respectfulness %></td>
+                    <td><%= review.responsiveness %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+          <%= will_paginate @reviews %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

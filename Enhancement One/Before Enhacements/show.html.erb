@@ -1,0 +1,86 @@
+<div>
+  <div>
+    <h1>
+      Category #<%= @the_category.id %> details
+    </h1>
+
+    <div>
+      <div>
+        <a href="/categories">
+          Go back
+        </a>
+      </div>
+
+      <div>
+        <a href="/delete_category/<%= @the_category.id %>">
+          Delete category
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Landlord
+      </dt>
+      <dd>
+        <%= @the_category.landlord_id %>
+      </dd>
+
+      <dt>
+        Category
+      </dt>
+      <dd>
+        <%= @the_category.category %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_category.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_category.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div>
+  <div>
+    <h2>
+      Edit category
+    </h2>
+
+    <form action="/modify_category/<%= @the_category.id %>"  method="post" >
+      <div>
+        <label for="landlord_id_box">
+          Landlord
+        </label>
+
+        <input type="text" id="landlord_id_box" name="query_landlord_id" value="<%= @the_category.landlord_id %>">
+      </div>
+
+      <div>
+        <label for="category_box">
+          Category
+        </label>
+
+        <input type="text" id="category_box" name="query_category" value="<%= @the_category.category %>">
+      </div>
+
+      <button>
+        Update category
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>

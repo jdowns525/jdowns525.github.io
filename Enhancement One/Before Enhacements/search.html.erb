@@ -1,0 +1,11 @@
+<div class="container mt-3">
+  <%= form_with(url: "/landlords", method: "get", local: true, html: { class: "row g-3 align-items-center" }) do %>
+    <div class="col-auto">
+      <%= label_tag(:search, "Search Landlord Name", class: "visually-hidden") %>
+      <%= text_field_tag(:search, nil, placeholder: "Search Landlord Name", class: "form-control") %>
+    </div>
+    <div class="col-auto">
+      <%= submit_tag("Search", class: "btn btn-primary") %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,21 @@
+<div class="container min-vh-100 d-flex justify-content-center align-items-center">
+  <div class="card border">
+    <div class="card-body">
+      <form action="/user_verify_credentials" method="post">
+        <div class="mb-4">
+          <label for="email_box" class="form-label">Email</label>
+          <input id="email_box" name="query_email" class="form-control" placeholder="Enter your email..." type="text">
+        </div>
+        <div class="mb-4">
+          <label for="password_box" class="form-label">Password</label>
+          <input id="password_box" name="query_password" class="form-control" placeholder="Enter your password..." type="password">
+        </div>
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+          <%= link_to "Sign up", "/user_sign_up", class: "btn btn-primary btn-block" %>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

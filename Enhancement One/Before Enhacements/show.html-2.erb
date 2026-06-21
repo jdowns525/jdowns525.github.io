@@ -1,0 +1,244 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-header">
+          <h1>Landlord #<%= @the_landlord.id %> details</h1>
+          <div class="d-flex justify-content-between align-items-center">
+            <a href="/landlords" class="btn btn-secondary">Go back</a>
+            <td>
+              <%= form_with(url: "/landlords/#{@the_landlord.id}", method: "delete", html: { onsubmit: "return confirm('Are you sure you want to delete?')" }) do %>
+              <%= submit_tag("Delete", class: "btn btn-danger") %>
+              <% end %>
+            </td>
+          </div>
+        </div>
+        <div class="card-body">
+          <dl class="mt-4">
+        <dt class="font-weight-bold">Name</dt>
+        <dd><%= @the_landlord.name %></dd>
+
+        <dt class="font-weight-bold">Neighborhood</dt>
+        <dd><%= @the_landlord.neighborhood %></dd>
+
+        <dt class="font-weight-bold">City</dt>
+        <dd><%= @the_landlord.city %></dd>
+
+        <dt class="font-weight-bold">Address</dt>
+        <dd><%= @the_landlord.address %></dd>
+
+        <dt class="font-weight-bold">State</dt>
+        <dd><%= @the_landlord.state %></dd>
+
+        <dt class="font-weight-bold">Postal code</dt>
+        <dd><%= @the_landlord.postal_code %></dd>
+
+        <dt class="font-weight-bold">Created at</dt>
+        <dd><%= time_ago_in_words(@the_landlord.created_at) %> ago</dd>
+
+        <dt class="font-weight-bold">Updated at</dt>
+        <dd><%= time_ago_in_words(@the_landlord.updated_at) %> ago</dd>
+       </dl>
+        </div>
+      </div>
+
+
+<hr>
+
+<% if @current_user != nil %>
+<div class="alert alert-info" role="alert">
+    Please input the landlord's ID in the landlord box. The landlord ID can be found on the landlord's record details page.
+</div>
+
+<button type="button" class="btn btn-primary my-4" data-bs-toggle="modal" data-bs-target="#writeReviewModal">
+    Write a Review
+</button>
+
+<div class="modal fade" id="writeReviewModal" tabindex="-1" aria-labelledby="writeReviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="writeReviewModalLabel">Review Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/reviews" method="post">
+                    <div class="mb-3 row">
+                        <label for="date_vacancy_box" class="col-md-4 col-form-label">Move/Out</label>
+                        <div class="col-md-8">
+                            <input type="date" class="form-control" id="date_vacancy_box" name="query_date_vacancy" value="<%= Time.now.strftime('%Y-%m-%d') %>">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="date_occupancy_box" class="col-md-4 col-form-label">Move/In</label>
+                        <div class="col-md-8">
+                            <input type="date" class="form-control" id="date_occupancy_box" name="query_date_occupancy" value="<%= Time.now.strftime('%Y-%m-%d') %>">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+    <label for="text_box" class="col-md-4 col-form-label">Description</label>
+    <div class="col-md-8">
+        <textarea class="form-control" id="text_box" name="query_text" rows="3"></textarea>
+    </div>
+</div>
+<div class="mb-3 row">
+    <label for="city_box" class="col-md-4 col-form-label">City</label>
+    <div class="col-md-8">
+        <input type="text" class="form-control" id="city_box" name="query_city">
+    </div>
+</div>
+<div class="mb-3 row">
+    <label for="landlord_id_box" class="col-md-4 col-form-label">Landlord ID</label>
+    <div class="col-md-8">
+        <input type="text" class="form-control" id="landlord_id_box" name="query_landlord_id">
+    </div>
+</div>
+<div class="mb-3 row">
+    <label for="stars_box" class="col-md-4 col-form-label">Stars</label>
+    <div class="col-md-8">
+        <input type="text" class="form-control" id="stars_box" name="query_stars">
+    </div>
+</div>
+<div class="mb-3 row">
+    <label for="useful_box" class="col-md-4 col-form-label">Useful?</label>
+    <div class="col-md-8">
+        <select class="form-control" id="useful_box" name="query_useful">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+    </div>
+</div>
+<div class="mb-3 row">
+    <label for="maintenance_box" class="col-md-4 col-form-label">Maintenance?</label>
+    <div class="col-md-8">
+        <select class="form-control" id="maintenance_box" name="query_maintenance_and_repairs">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+    </div>
+</div>
+<div class="mb-3 row">
+    <label for="respect_box" class="col-md-4 col-form-label">Respect?</label>
+    <div class="col-md-8">
+        <select class="form-control" id="respect_box" name="query_respectfulness">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+    </div>
+</div>
+<div class="mb-3 row">
+    <label for="response_box" class="col-md-4 col-form-label">Response?</label>
+    <div class="col-md-8">
+        <select class="form-control" id="response_box" name="query_responsiveness">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+    </div>
+</div>
+<div class="text-center">
+    <button type="submit" class="btn btn-primary">Create Review</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<% end %>
+
+
+
+
+<div class="card">
+  <div class="card-header">
+    <h2>Landlord's Reviews</h2>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Reviewer</th>
+            <th>Caption</th>
+            <th>Stars</th>
+            <th>Created?</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @reviews.each do |review| %>
+            <tr>
+              <td><%= review.user.name %></td>
+              <td><%= review.text %></td>
+              <td><%= review.stars %></td>
+              <td><%= time_ago_in_words(review.updated_at) %> ago</td>
+
+              <td><a href="/reviews/<%= review.id %>" class="btn btn-primary"> Details</a></td>
+            
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<% if @current_user != nil %>
+  <% if @current_user == @the_landlord.user %>
+    <div class="card">
+      <div class="card-header">
+        <h2>Edit landlord</h2>
+      </div>
+      <div class="card-body">
+            <form action="/landlords" method="post">
+        <div class="mb-3">
+          <label for="name_box" class="form-label">Name</label>
+          <input type="text" id="name_box" name="query_name" class="form-control" value="<%= @the_landlord.name %>">
+        </div>
+        <div class="mb-3">
+          <label for="neighborhood_box" class="form-label">Neighborhood</label>
+          <input type="text" id="neighborhood_box" name="query_neighborhood" class="form-control" value="<%= @the_landlord.neighborhood %>">
+        </div>
+        <div class="mb-3">
+          <label for="city_box" class="form-label">City</label>
+          <input type="text" id="city_box" name="query_city" class="form-control" value="<%= @the_landlord.city %>">
+        </div>
+        <div class="mb-3">
+          <label for="address_box" class="form-label">Address</label>
+          <input type="text" id="address_box" name="query_address" class="form-control" value="<%= @the_landlord.address %>">
+        </div>
+        <div class="row mb-3">
+          <div class="col">
+            <label for="state_box" class="form-label">State</label>
+            <input type="text" id="state_box" name="query_state" class="form-control" value="<%= @the_landlord.state %>">
+          </div>
+          <div class="col">
+            <label for="postal_code_box" class="form-label">Postal code</label>
+            <input type="text" id="postal_code_box" name="query_postal_code" class="form-control" value="<%= @the_landlord.postal_code %>">
+          </div>
+        </div>
+        <div class="row mb-3">
+          
+        </div>
+        
+        <div class="row mb-3">
+          
+        </div>
+        <button type="submit" class="btn btn-primary">Update landlord</button>
+      </form>
+     </div>
+    </div>
+  <% else %>
+    <div class="alert alert-danger" role="alert">
+      You are not authorized to edit this profile.
+    </div>
+  <% end %>
+<% else %>
+  <div class="alert alert-danger" role="alert">
+    Please log in to edit this profile.
+  </div>
+<% end %>
+<hr>

@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h5 class="card-title mb-0">
+        Edit <%= @current_user.name %>'s Profile
+      </h5>
+    </div>
+
+    <div class="card mb-3">
+      <div class="card-body">
+        <label class="form-label">Role</label>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="user_role" id="role_renter" value="renter" <%= 'checked' if @current_user.user_role == 'renter' %> <%= 'disabled' if @current_user.user_role.present? %>>
+          <label class="form-check-label" for="role_renter">Renter</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="user_role" id="role_landlord" value="landlord" <%= 'checked' if @current_user.user_role == 'landlord' %> <%= 'disabled' if @current_user.user_role.present? %>>
+          <label class="form-check-label" for="role_landlord">Landlord</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <form action="/modify_user" method="post">
+        <div class="mb-3">
+          <label for="email_box" class="form-label">Email</label>
+          <input id="email_box" name="query_email" value="<%= @current_user.email %>" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label for="name_box" class="form-label">Name</label>
+          <input id="name_box" name="query_name" value="<%= @current_user.name %>" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label for="password_box" class="form-label">Password</label>
+          <input id="password_box" name="query_password" placeholder="Choose a password..." type="password" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label for="password_confirmation_box" class="form-label">Password Confirmation</label>
+          <input id="password_confirmation_box" name="query_password_confirmation" placeholder="Confirm your password..." type="password" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          Update account
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
