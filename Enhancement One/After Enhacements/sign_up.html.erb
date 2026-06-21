@@ -1,0 +1,145 @@
+<div class="container min-vh-100 d-flex justify-content-center align-items-center py-4">
+  <div class="row w-100">
+    <div class="col-md-7 col-lg-6 mx-auto">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white text-center">
+          <h1 class="h4 mb-0">Create an Account</h1>
+        </div>
+
+        <div class="card-body">
+          <%= form_with(url: "/insert_user", method: "post", local: true) do %>
+            <div class="mb-3">
+              <%= label_tag(:query_email, "Email", class: "form-label") %>
+              <%= email_field_tag(
+                    :query_email,
+                    nil,
+                    class: "form-control",
+                    placeholder: "Choose an email"
+                  ) %>
+            </div>
+
+            <div class="mb-3">
+              <%= label_tag(:query_name, "Name", class: "form-label") %>
+              <%= text_field_tag(
+                    :query_name,
+                    nil,
+                    class: "form-control",
+                    placeholder: "Enter your name"
+                  ) %>
+            </div>
+
+            <div class="mb-3">
+              <%= label_tag(:query_password, "Password", class: "form-label") %>
+              <%= password_field_tag(
+                    :query_password,
+                    nil,
+                    class: "form-control",
+                    placeholder: "Choose a password"
+                  ) %>
+            </div>
+
+            <div class="mb-4">
+              <%= label_tag(:query_password_confirmation, "Password Confirmation", class: "form-label") %>
+              <%= password_field_tag(
+                    :query_password_confirmation,
+                    nil,
+                    class: "form-control",
+                    placeholder: "Confirm your password"
+                  ) %>
+            </div>
+
+            <div class="card mb-4">
+              <div class="card-header">
+                <h2 class="h5 mb-0">Account Role</h2>
+              </div>
+
+              <div class="card-body">
+                <p class="text-muted small mb-3">
+                  Select the role that best describes how you plan to use the application.
+                </p>
+
+                <div class="form-check">
+                  <%= radio_button_tag(
+                        :user_role,
+                        "renter",
+                        true,
+                        id: "role_renter",
+                        class: "form-check-input"
+                      ) %>
+                  <%= label_tag(:role_renter, "Renter", class: "form-check-label") %>
+                </div>
+
+                <div class="form-check">
+                  <%= radio_button_tag(
+                        :user_role,
+                        "landlord",
+                        false,
+                        id: "role_landlord",
+                        class: "form-check-input"
+                      ) %>
+                  <%= label_tag(:role_landlord, "Landlord", class: "form-check-label") %>
+                </div>
+              </div>
+            </div>
+
+            <div class="card mb-4 d-none" id="landlord_options">
+              <div class="card-header">
+                <h2 class="h5 mb-0">Landlord Type</h2>
+              </div>
+
+              <div class="card-body">
+                <div class="form-check">
+                  <%= radio_button_tag(
+                        :landlord_type,
+                        "private_landlord",
+                        false,
+                        id: "landlord_type_private",
+                        class: "form-check-input"
+                      ) %>
+                  <%= label_tag(:landlord_type_private, "Private Landlord", class: "form-check-label") %>
+                </div>
+
+                <div class="form-check">
+                  <%= radio_button_tag(
+                        :landlord_type,
+                        "management_company",
+                        false,
+                        id: "landlord_type_management",
+                        class: "form-check-input"
+                      ) %>
+                  <%= label_tag(:landlord_type_management, "Management Company", class: "form-check-label") %>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-grid gap-2">
+              <%= submit_tag("Sign Up", class: "btn btn-primary") %>
+              <%= link_to "Already have an account? Sign In", "/user_sign_in", class: "btn btn-outline-primary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const landlordRadio = document.getElementById("role_landlord");
+    const renterRadio = document.getElementById("role_renter");
+    const landlordOptions = document.getElementById("landlord_options");
+
+    function updateLandlordOptionsVisibility() {
+      if (landlordRadio.checked) {
+        landlordOptions.classList.remove("d-none");
+      } else {
+        landlordOptions.classList.add("d-none");
+      }
+    }
+
+    landlordRadio.addEventListener("change", updateLandlordOptionsVisibility);
+    renterRadio.addEventListener("change", updateLandlordOptionsVisibility);
+
+    updateLandlordOptionsVisibility();
+  });
+</script>

@@ -1,0 +1,219 @@
+<div class="container py-4">
+  <div class="row">
+    <div class="col-lg-10 offset-lg-1">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+            <h1 class="h3 mb-0">Review Details</h1>
+
+            <div class="d-flex gap-2">
+              <%= link_to "Go Back", "/reviews", class: "btn btn-light btn-sm" %>
+
+              <% if @current_user.present? %>
+                <%= form_with(url: "/reviews/#{@the_review.id}", method: "delete", local: true, html: { onsubmit: "return confirm('Are you sure you want to delete this review?')" }) do %>
+                  <%= submit_tag("Delete", class: "btn btn-danger btn-sm") %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <dl class="row mb-0">
+            <dt class="col-sm-4">Stars</dt>
+            <dd class="col-sm-8"><%= @the_review.stars %></dd>
+
+            <dt class="col-sm-4">Move Out</dt>
+            <dd class="col-sm-8"><%= @the_review.date_vacancy %></dd>
+
+            <dt class="col-sm-4">Move In</dt>
+            <dd class="col-sm-8"><%= @the_review.date_occupancy %></dd>
+
+            <dt class="col-sm-4">Review</dt>
+            <dd class="col-sm-8"><%= @the_review.text %></dd>
+
+            <dt class="col-sm-4">Useful</dt>
+            <dd class="col-sm-8"><%= @the_review.useful %></dd>
+
+            <dt class="col-sm-4">Maintenance</dt>
+            <dd class="col-sm-8"><%= @the_review.maintenance_and_repairs %></dd>
+
+            <dt class="col-sm-4">Respectful</dt>
+            <dd class="col-sm-8"><%= @the_review.respectfulness %></dd>
+
+            <dt class="col-sm-4">Responsive</dt>
+            <dd class="col-sm-8"><%= @the_review.responsiveness %></dd>
+
+            <dt class="col-sm-4">Landlord</dt>
+            <dd class="col-sm-8">
+              <% if @the_review.landlord.present? %>
+                <%= link_to @the_review.landlord.name, landlord_path(@the_review.landlord) %>
+              <% else %>
+                <%= @the_review.landlord_id %>
+              <% end %>
+            </dd>
+
+            <dt class="col-sm-4">User</dt>
+            <dd class="col-sm-8"><%= @the_review.user_id %></dd>
+
+            <dt class="col-sm-4">City</dt>
+            <dd class="col-sm-8"><%= @the_review.city %></dd>
+
+            <dt class="col-sm-4">Updated</dt>
+            <dd class="col-sm-8"><%= time_ago_in_words(@the_review.updated_at) %> ago</dd>
+          </dl>
+        </div>
+      </div>
+
+      <% if @current_user.present? %>
+        <div class="d-flex justify-content-end mb-4">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editReviewModal">
+            Edit Review
+          </button>
+        </div>
+
+        <div class="modal fade" id="editReviewModal" tabindex="-1" aria-labelledby="editReviewModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <%= form_with(url: review_path(@the_review), method: :patch, local: true) do %>
+                <div class="modal-header">
+                  <h5 class="modal-title" id="editReviewModalLabel">Edit Review</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <%= label_tag(:query_date_occupancy, "Move In", class: "form-label") %>
+                      <%= date_field_tag(:query_date_occupancy, @the_review.date_occupancy, class: "form-control") %>
+                    </div>
+
+                    <div class="col-md-6">
+                      <%= label_tag(:query_date_vacancy, "Move Out", class: "form-label") %>
+                      <%= date_field_tag(:query_date_vacancy, @the_review.date_vacancy, class: "form-control") %>
+                    </div>
+
+                    <div class="col-md-6">
+                      <%= label_tag(:query_landlord_id, "Landlord ID", class: "form-label") %>
+                      <%= number_field_tag(:query_landlord_id, @the_review.landlord_id, class: "form-control") %>
+                    </div>
+
+                    <div class="col-md-6">
+                      <%= label_tag(:query_user_id, "User ID", class: "form-label") %>
+                      <%= number_field_tag(:query_user_id, @the_review.user_id, class: "form-control") %>
+                    </div>
+
+                    <div class="col-md-6">
+                      <%= label_tag(:query_city, "City", class: "form-label") %>
+                      <%= text_field_tag(:query_city, @the_review.city, class: "form-control") %>
+                    </div>
+
+                    <div class="col-md-6">
+                      <%= label_tag(:query_stars, "Stars", class: "form-label") %>
+                      <%= number_field_tag(:query_stars, @the_review.stars, min: 1, max: 5, class: "form-control") %>
+                    </div>
+
+                    <div class="col-md-6">
+                      <%= label_tag(:query_useful, "Useful?", class: "form-label") %>
+                      <%= select_tag(
+                            :query_useful,
+                            options_for_select(["Yes", "No"], @the_review.useful),
+                            class: "form-select"
+                          ) %>
+                    </div>
+
+                    <div class="col-md-6">
+                      <%= label_tag(:query_maintenance_and_repairs, "Maintenance?", class: "form-label") %>
+                      <%= select_tag(
+                            :query_maintenance_and_repairs,
+                            options_for_select(["Yes", "No"], @the_review.maintenance_and_repairs),
+                            class: "form-select"
+                          ) %>
+                    </div>
+
+                    <div class="col-md-6">
+                      <%= label_tag(:query_respectfulness, "Respectful?", class: "form-label") %>
+                      <%= select_tag(
+                            :query_respectfulness,
+                            options_for_select(["Yes", "No"], @the_review.respectfulness),
+                            class: "form-select"
+                          ) %>
+                    </div>
+
+                    <div class="col-md-6">
+                      <%= label_tag(:query_responsiveness, "Responsive?", class: "form-label") %>
+                      <%= select_tag(
+                            :query_responsiveness,
+                            options_for_select(["Yes", "No"], @the_review.responsiveness),
+                            class: "form-select"
+                          ) %>
+                    </div>
+
+                    <div class="col-12">
+                      <%= label_tag(:query_text, "Review", class: "form-label") %>
+                      <%= text_area_tag(:query_text, @the_review.text, rows: 4, class: "form-control") %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <%= submit_tag("Update Review", class: "btn btn-primary") %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+          <div class="card-header">
+            <h2 class="h5 mb-0">Messages</h2>
+          </div>
+
+          <div class="card-body">
+            <% if @messages.present? %>
+              <ul class="list-group">
+                <% @messages.each do |message| %>
+                  <li class="list-group-item">
+                    <strong><%= message.user.email %>:</strong>
+                    <%= message.content %>
+                  </li>
+                <% end %>
+              </ul>
+            <% else %>
+              <div class="alert alert-info mb-0">
+                No messages have been added yet.
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="card shadow-sm">
+          <div class="card-header">
+            <h2 class="h5 mb-0">Contact Reviewer</h2>
+          </div>
+
+          <div class="card-body">
+            <%= form_with(url: messages_path, method: :post, local: true) do %>
+              <%= hidden_field_tag "query_review_id", @the_review.id %>
+              <%= hidden_field_tag "query_user_id", @current_user.id %>
+
+              <div class="mb-3">
+                <%= label_tag(:query_content, "Message", class: "form-label") %>
+                <%= text_area_tag(:query_content, nil, rows: 4, class: "form-control", placeholder: "Write your message...") %>
+              </div>
+
+              <div class="d-grid">
+                <%= submit_tag("Send Message", class: "btn btn-primary") %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% else %>
+        <div class="alert alert-info">
+          Please sign in to edit this review or contact the reviewer.
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

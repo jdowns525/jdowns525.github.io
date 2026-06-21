@@ -1,0 +1,234 @@
+<div class="container py-4">
+  <div class="row">
+    <div class="col-lg-10 offset-lg-1">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+            <h1 class="h3 mb-0">
+              <%= @the_landlord.name %>
+            </h1>
+
+            <div class="d-flex gap-2">
+              <%= link_to "Go Back", "/landlords", class: "btn btn-light btn-sm" %>
+
+              <% if @current_user.present? && @current_user == @the_landlord.user %>
+                <%= form_with(url: "/landlords/#{@the_landlord.id}", method: "delete", local: true, html: { onsubmit: "return confirm('Are you sure you want to delete this landlord?')" }) do %>
+                  <%= submit_tag("Delete", class: "btn btn-danger btn-sm") %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <dl class="row mb-0">
+            <dt class="col-sm-4">Name</dt>
+            <dd class="col-sm-8"><%= @the_landlord.name %></dd>
+
+            <dt class="col-sm-4">Neighborhood</dt>
+            <dd class="col-sm-8"><%= @the_landlord.neighborhood %></dd>
+
+            <dt class="col-sm-4">Address</dt>
+            <dd class="col-sm-8"><%= @the_landlord.address %></dd>
+
+            <dt class="col-sm-4">City</dt>
+            <dd class="col-sm-8"><%= @the_landlord.city %></dd>
+
+            <dt class="col-sm-4">State</dt>
+            <dd class="col-sm-8"><%= @the_landlord.state %></dd>
+
+            <dt class="col-sm-4">Postal Code</dt>
+            <dd class="col-sm-8"><%= @the_landlord.postal_code %></dd>
+
+            <dt class="col-sm-4">Created</dt>
+            <dd class="col-sm-8"><%= time_ago_in_words(@the_landlord.created_at) %> ago</dd>
+
+            <dt class="col-sm-4">Updated</dt>
+            <dd class="col-sm-8"><%= time_ago_in_words(@the_landlord.updated_at) %> ago</dd>
+          </dl>
+        </div>
+      </div>
+
+      <% if @current_user.present? %>
+        <div class="d-flex justify-content-end mb-4">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#writeReviewModal">
+            Write a Review
+          </button>
+        </div>
+
+        <div class="modal fade" id="writeReviewModal" tabindex="-1" aria-labelledby="writeReviewModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <%= form_with(url: "/reviews", method: "post", local: true) do %>
+                <div class="modal-header">
+                  <h5 class="modal-title" id="writeReviewModalLabel">Write a Review</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                  <%= hidden_field_tag :query_landlord_id, @the_landlord.id %>
+
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <%= label_tag(:query_date_occupancy, "Move In", class: "form-label") %>
+                      <%= date_field_tag(:query_date_occupancy, Time.zone.today, class: "form-control") %>
+                    </div>
+
+                    <div class="col-md-6">
+                      <%= label_tag(:query_date_vacancy, "Move Out", class: "form-label") %>
+                      <%= date_field_tag(:query_date_vacancy, Time.zone.today, class: "form-control") %>
+                    </div>
+
+                    <div class="col-md-8">
+                      <%= label_tag(:query_city, "City", class: "form-label") %>
+                      <%= text_field_tag(:query_city, @the_landlord.city, class: "form-control") %>
+                    </div>
+
+                    <div class="col-md-4">
+                      <%= label_tag(:query_stars, "Stars", class: "form-label") %>
+                      <%= number_field_tag(:query_stars, nil, min: 1, max: 5, class: "form-control", placeholder: "1-5") %>
+                    </div>
+
+                    <div class="col-md-12">
+                      <%= label_tag(:query_text, "Review", class: "form-label") %>
+                      <%= text_area_tag(:query_text, nil, rows: 4, class: "form-control", placeholder: "Describe your rental experience...") %>
+                    </div>
+
+                    <div class="col-md-6">
+                      <%= label_tag(:query_useful, "Was this useful?", class: "form-label") %>
+                      <%= select_tag(:query_useful, options_for_select(["Yes", "No"]), class: "form-select") %>
+                    </div>
+
+                    <div class="col-md-6">
+                      <%= label_tag(:query_maintenance_and_repairs, "Maintenance and Repairs", class: "form-label") %>
+                      <%= select_tag(:query_maintenance_and_repairs, options_for_select(["Yes", "No"]), class: "form-select") %>
+                    </div>
+
+                    <div class="col-md-6">
+                      <%= label_tag(:query_respectfulness, "Respectfulness", class: "form-label") %>
+                      <%= select_tag(:query_respectfulness, options_for_select(["Yes", "No"]), class: "form-select") %>
+                    </div>
+
+                    <div class="col-md-6">
+                      <%= label_tag(:query_responsiveness, "Responsiveness", class: "form-label") %>
+                      <%= select_tag(:query_responsiveness, options_for_select(["Yes", "No"]), class: "form-select") %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <%= submit_tag("Create Review", class: "btn btn-primary") %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% else %>
+        <div class="alert alert-info">
+          Please sign in to write a review for this landlord.
+        </div>
+      <% end %>
+
+      <div class="card shadow-sm mb-4">
+        <div class="card-header">
+          <h2 class="h5 mb-0">Landlord Reviews</h2>
+        </div>
+
+        <div class="card-body">
+          <% if @reviews.present? %>
+            <div class="table-responsive">
+              <table class="table table-striped table-hover align-middle">
+                <thead class="table-light">
+                  <tr>
+                    <th scope="col">Reviewer</th>
+                    <th scope="col">Review</th>
+                    <th scope="col">Stars</th>
+                    <th scope="col">Updated</th>
+                    <th scope="col" class="text-end">Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% @reviews.each do |review| %>
+                    <tr>
+                      <td><%= review.user.name %></td>
+                      <td><%= truncate(review.text, length: 90) %></td>
+                      <td><%= review.stars %></td>
+                      <td><%= time_ago_in_words(review.updated_at) %> ago</td>
+                      <td class="text-end">
+                        <%= link_to "Details", "/reviews/#{review.id}", class: "btn btn-sm btn-primary" %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% else %>
+            <div class="alert alert-info mb-0">
+              No reviews have been added for this landlord yet.
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <% if @current_user.present? %>
+        <% if @current_user == @the_landlord.user %>
+          <div class="card shadow-sm">
+            <div class="card-header">
+              <h2 class="h5 mb-0">Edit Landlord</h2>
+            </div>
+
+            <div class="card-body">
+              <%= form_with(url: "/landlords/#{@the_landlord.id}", method: "patch", local: true) do %>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <%= label_tag(:query_name, "Name", class: "form-label") %>
+                    <%= text_field_tag(:query_name, @the_landlord.name, class: "form-control") %>
+                  </div>
+
+                  <div class="col-md-6">
+                    <%= label_tag(:query_neighborhood, "Neighborhood", class: "form-label") %>
+                    <%= text_field_tag(:query_neighborhood, @the_landlord.neighborhood, class: "form-control") %>
+                  </div>
+
+                  <div class="col-md-12">
+                    <%= label_tag(:query_address, "Address", class: "form-label") %>
+                    <%= text_field_tag(:query_address, @the_landlord.address, class: "form-control") %>
+                  </div>
+
+                  <div class="col-md-4">
+                    <%= label_tag(:query_city, "City", class: "form-label") %>
+                    <%= text_field_tag(:query_city, @the_landlord.city, class: "form-control") %>
+                  </div>
+
+                  <div class="col-md-4">
+                    <%= label_tag(:query_state, "State", class: "form-label") %>
+                    <%= text_field_tag(:query_state, @the_landlord.state, class: "form-control") %>
+                  </div>
+
+                  <div class="col-md-4">
+                    <%= label_tag(:query_postal_code, "Postal Code", class: "form-label") %>
+                    <%= text_field_tag(:query_postal_code, @the_landlord.postal_code, class: "form-control") %>
+                  </div>
+
+                  <div class="col-12 d-flex justify-content-end">
+                    <%= submit_tag("Update Landlord", class: "btn btn-primary") %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% else %>
+          <div class="alert alert-warning">
+            You are not authorized to edit this landlord profile.
+          </div>
+        <% end %>
+      <% else %>
+        <div class="alert alert-info">
+          Please sign in to edit this landlord profile.
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

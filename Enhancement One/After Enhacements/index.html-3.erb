@@ -1,0 +1,168 @@
+<div class="container py-4">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+      <h1 class="h3 mb-1">Reviews</h1>
+      <p class="text-muted mb-0">
+        View tenant reviews and share rental experiences with the community.
+      </p>
+    </div>
+
+    <% if @current_user.present? %>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#writeReviewModal">
+        Write a Review
+      </button>
+    <% end %>
+  </div>
+
+  <% if @current_user.blank? %>
+    <div class="alert alert-info">
+      Please sign in to write a review.
+    </div>
+  <% end %>
+
+  <div class="card shadow-sm">
+    <div class="card-header">
+      <h2 class="h5 mb-0">All Reviews</h2>
+    </div>
+
+    <div class="card-body">
+      <% if @reviews.present? %>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th scope="col">Landlord</th>
+                <th scope="col">Move In</th>
+                <th scope="col">Move Out</th>
+                <th scope="col">Review</th>
+                <th scope="col">Useful</th>
+                <th scope="col">Maintenance</th>
+                <th scope="col">Respectful</th>
+                <th scope="col">Responsive</th>
+                <th scope="col">Stars</th>
+                <th scope="col">User</th>
+                <th scope="col">City</th>
+                <th scope="col">Updated</th>
+                <th scope="col" class="text-end">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @reviews.each do |a_review| %>
+                <tr>
+                  <td>
+                    <% if a_review.landlord.present? %>
+                      <%= link_to a_review.landlord.name, landlord_path(a_review.landlord) %>
+                    <% else %>
+                      Not available
+                    <% end %>
+                  </td>
+                  <td><%= a_review.date_occupancy %></td>
+                  <td><%= a_review.date_vacancy %></td>
+                  <td><%= truncate(a_review.text, length: 80) %></td>
+                  <td><%= a_review.useful %></td>
+                  <td><%= a_review.maintenance_and_repairs %></td>
+                  <td><%= a_review.respectfulness %></td>
+                  <td><%= a_review.responsiveness %></td>
+                  <td><%= a_review.stars %></td>
+                  <td><%= a_review.user_id %></td>
+                  <td><%= a_review.city %></td>
+                  <td><%= time_ago_in_words(a_review.updated_at) %> ago</td>
+                  <td class="text-end">
+                    <%= link_to "Details", "/reviews/#{a_review.id}", class: "btn btn-sm btn-primary" %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="d-flex justify-content-center mt-3">
+          <%= will_paginate @reviews %>
+        </div>
+      <% else %>
+        <div class="alert alert-info mb-0">
+          No reviews have been posted yet.
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <% if @current_user.present? %>
+    <div class="modal fade" id="writeReviewModal" tabindex="-1" aria-labelledby="writeReviewModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <%= form_with(url: "/reviews", method: "post", local: true) do %>
+            <div class="modal-header">
+              <h5 class="modal-title" id="writeReviewModalLabel">Write a Review</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+              <div class="alert alert-info">
+                Enter the landlord ID from the landlord detail page before submitting your review.
+              </div>
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <%= label_tag(:query_date_occupancy, "Move In", class: "form-label") %>
+                  <%= date_field_tag(:query_date_occupancy, Time.zone.today, class: "form-control") %>
+                </div>
+
+                <div class="col-md-6">
+                  <%= label_tag(:query_date_vacancy, "Move Out", class: "form-label") %>
+                  <%= date_field_tag(:query_date_vacancy, Time.zone.today, class: "form-control") %>
+                </div>
+
+                <div class="col-md-6">
+                  <%= label_tag(:query_landlord_id, "Landlord ID", class: "form-label") %>
+                  <%= number_field_tag(:query_landlord_id, nil, class: "form-control", placeholder: "Enter landlord ID") %>
+                </div>
+
+                <div class="col-md-6">
+                  <%= label_tag(:query_city, "City", class: "form-label") %>
+                  <%= text_field_tag(:query_city, nil, class: "form-control", placeholder: "Enter city") %>
+                </div>
+
+                <div class="col-md-6">
+                  <%= label_tag(:query_stars, "Stars", class: "form-label") %>
+                  <%= number_field_tag(:query_stars, nil, min: 1, max: 5, class: "form-control", placeholder: "1-5") %>
+                </div>
+
+                <div class="col-md-6">
+                  <%= label_tag(:query_useful, "Useful?", class: "form-label") %>
+                  <%= select_tag(:query_useful, options_for_select(["Yes", "No"]), class: "form-select") %>
+                </div>
+
+                <div class="col-md-4">
+                  <%= label_tag(:query_maintenance_and_repairs, "Maintenance?", class: "form-label") %>
+                  <%= select_tag(:query_maintenance_and_repairs, options_for_select(["Yes", "No"]), class: "form-select") %>
+                </div>
+
+                <div class="col-md-4">
+                  <%= label_tag(:query_respectfulness, "Respectful?", class: "form-label") %>
+                  <%= select_tag(:query_respectfulness, options_for_select(["Yes", "No"]), class: "form-select") %>
+                </div>
+
+                <div class="col-md-4">
+                  <%= label_tag(:query_responsiveness, "Responsive?", class: "form-label") %>
+                  <%= select_tag(:query_responsiveness, options_for_select(["Yes", "No"]), class: "form-select") %>
+                </div>
+
+                <div class="col-12">
+                  <%= label_tag(:query_text, "Review", class: "form-label") %>
+                  <%= text_area_tag(:query_text, nil, rows: 4, class: "form-control", placeholder: "Describe your rental experience...") %>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <%= submit_tag("Create Review", class: "btn btn-primary") %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,215 @@
+<div class="container py-4">
+  <div class="row mb-4">
+    <div class="col-lg-12">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h1 class="h3 mb-0">Landlords</h1>
+        </div>
+
+        <div class="card-body">
+          <p class="mb-0">
+            Search for landlords by name, address, or neighborhood. Signed-in users can also add new landlord records.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-lg-12">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <%= form_with(url: "/landlords", method: "get", local: true, html: { class: "row g-3 align-items-end" }) do %>
+            <div class="col-md-10">
+              <%= label_tag(:search, "Search Landlords", class: "form-label") %>
+              <%= text_field_tag(
+                    :search,
+                    params[:search],
+                    placeholder: "Search by landlord, address, or neighborhood...",
+                    class: "form-control"
+                  ) %>
+              <div class="form-text">
+                Enter a landlord name, address, or neighborhood to search.
+              </div>
+            </div>
+
+            <div class="col-md-2 d-grid">
+              <%= submit_tag("Search", class: "btn btn-primary") %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% if @current_user.present? %>
+    <div class="d-flex justify-content-end mb-3">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createLandlordModal">
+        Create Landlord
+      </button>
+    </div>
+  <% end %>
+
+  <div class="card shadow-sm">
+    <div class="card-header">
+      <h2 class="h5 mb-0">Landlord Records</h2>
+    </div>
+
+    <div class="card-body">
+      <% if @landlords.present? %>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Neighborhood</th>
+                <th scope="col">Address</th>
+                <th scope="col">City</th>
+                <th scope="col">State</th>
+                <th scope="col">Zip Code</th>
+                <th scope="col">Updated</th>
+                <th scope="col" class="text-end">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @landlords.each do |a_landlord| %>
+                <tr>
+                  <td><%= a_landlord.name %></td>
+                  <td><%= a_landlord.neighborhood %></td>
+                  <td><%= a_landlord.address %></td>
+                  <td><%= a_landlord.city %></td>
+                  <td><%= a_landlord.state %></td>
+                  <td><%= a_landlord.postal_code %></td>
+                  <td><%= time_ago_in_words(a_landlord.updated_at) %> ago</td>
+                  <td class="text-end">
+                    <%= link_to "Details", "/landlords/#{a_landlord.id}", class: "btn btn-sm btn-primary" %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="d-flex justify-content-center mt-3">
+          <%= will_paginate @landlords %>
+        </div>
+      <% else %>
+        <div class="alert alert-info mb-0">
+          No landlord records were found.
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <% if @current_user.present? %>
+    <div class="modal fade" id="createLandlordModal" tabindex="-1" aria-labelledby="createLandlordModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <%= form_with(url: "/landlords", method: "post", local: true, html: { id: "createLandlordForm" }) do %>
+            <div class="modal-header">
+              <h5 class="modal-title" id="createLandlordModalLabel">Create Landlord</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <%= label_tag(:query_name, "Name", class: "form-label") %>
+                  <%= text_field_tag(:query_name, nil, class: "form-control", placeholder: "Enter landlord name...") %>
+                </div>
+
+                <div class="col-md-6">
+                  <%= label_tag(:query_neighborhood, "Neighborhood", class: "form-label") %>
+                  <%= text_field_tag(:query_neighborhood, nil, class: "form-control", placeholder: "Enter neighborhood...") %>
+                </div>
+
+                <div class="col-md-12">
+                  <%= label_tag(:query_address, "Address", class: "form-label") %>
+                  <%= text_field_tag(:query_address, nil, class: "form-control", placeholder: "Enter address...") %>
+                </div>
+
+                <div class="col-md-4">
+                  <%= label_tag(:query_city, "City", class: "form-label") %>
+                  <%= text_field_tag(:query_city, nil, class: "form-control", placeholder: "Enter city...") %>
+                </div>
+
+                <div class="col-md-4">
+                  <%= label_tag(:query_state, "State", class: "form-label") %>
+                  <%= select_tag(
+                        :query_state,
+                        options_for_select([
+                          ["Choose...", ""],
+                          ["Alabama", "AL"],
+                          ["Alaska", "AK"],
+                          ["Arizona", "AZ"],
+                          ["Arkansas", "AR"],
+                          ["California", "CA"],
+                          ["Colorado", "CO"],
+                          ["Connecticut", "CT"],
+                          ["Delaware", "DE"],
+                          ["District Of Columbia", "DC"],
+                          ["Florida", "FL"],
+                          ["Georgia", "GA"],
+                          ["Hawaii", "HI"],
+                          ["Idaho", "ID"],
+                          ["Illinois", "IL"],
+                          ["Indiana", "IN"],
+                          ["Iowa", "IA"],
+                          ["Kansas", "KS"],
+                          ["Kentucky", "KY"],
+                          ["Louisiana", "LA"],
+                          ["Maine", "ME"],
+                          ["Maryland", "MD"],
+                          ["Massachusetts", "MA"],
+                          ["Michigan", "MI"],
+                          ["Minnesota", "MN"],
+                          ["Mississippi", "MS"],
+                          ["Missouri", "MO"],
+                          ["Montana", "MT"],
+                          ["Nebraska", "NE"],
+                          ["Nevada", "NV"],
+                          ["New Hampshire", "NH"],
+                          ["New Jersey", "NJ"],
+                          ["New Mexico", "NM"],
+                          ["New York", "NY"],
+                          ["North Carolina", "NC"],
+                          ["North Dakota", "ND"],
+                          ["Ohio", "OH"],
+                          ["Oklahoma", "OK"],
+                          ["Oregon", "OR"],
+                          ["Pennsylvania", "PA"],
+                          ["Rhode Island", "RI"],
+                          ["South Carolina", "SC"],
+                          ["South Dakota", "SD"],
+                          ["Tennessee", "TN"],
+                          ["Texas", "TX"],
+                          ["Utah", "UT"],
+                          ["Vermont", "VT"],
+                          ["Virginia", "VA"],
+                          ["Washington", "WA"],
+                          ["West Virginia", "WV"],
+                          ["Wisconsin", "WI"],
+                          ["Wyoming", "WY"]
+                        ]),
+                        class: "form-select"
+                      ) %>
+                </div>
+
+                <div class="col-md-4">
+                  <%= label_tag(:query_postal_code, "Zip Code", class: "form-label") %>
+                  <%= text_field_tag(:query_postal_code, nil, class: "form-control", placeholder: "Enter zip code...") %>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <%= submit_tag("Create Landlord", class: "btn btn-primary") %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

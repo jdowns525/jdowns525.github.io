@@ -1,0 +1,40 @@
+<div class="container py-4">
+  <div class="row min-vh-100 justify-content-center align-items-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white text-center">
+          <h1 class="h4 mb-0">Sign In</h1>
+        </div>
+
+        <div class="card-body">
+          <%= form_with(url: "/user_verify_credentials", method: "post", local: true) do %>
+            <div class="mb-3">
+              <%= label_tag(:query_email, "Email", class: "form-label") %>
+              <%= email_field_tag(
+                    :query_email,
+                    nil,
+                    class: "form-control",
+                    placeholder: "Enter your email"
+                  ) %>
+            </div>
+
+            <div class="mb-4">
+              <%= label_tag(:query_password, "Password", class: "form-label") %>
+              <%= password_field_tag(
+                    :query_password,
+                    nil,
+                    class: "form-control",
+                    placeholder: "Enter your password"
+                  ) %>
+            </div>
+
+            <div class="d-grid gap-2">
+              <%= submit_tag("Sign In", class: "btn btn-primary") %>
+              <%= link_to "Create an Account", "/user_sign_up", class: "btn btn-outline-primary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

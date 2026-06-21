@@ -1,0 +1,97 @@
+<div class="container py-4">
+  <div class="row">
+    <div class="col-lg-8 offset-lg-2">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h1 class="h4 mb-0">
+            Edit <%= @current_user.name %>'s Profile
+          </h1>
+        </div>
+
+        <div class="card-body">
+          <div class="card mb-4">
+            <div class="card-header">
+              <h2 class="h5 mb-0">Account Role</h2>
+            </div>
+
+            <div class="card-body">
+              <p class="text-muted small mb-3">
+                Your role helps personalize your account experience.
+              </p>
+
+              <div class="form-check">
+                <%= radio_button_tag(
+                      :user_role,
+                      "renter",
+                      @current_user.user_role == "renter",
+                      id: "role_renter",
+                      class: "form-check-input",
+                      disabled: @current_user.user_role.present?
+                    ) %>
+                <%= label_tag(:role_renter, "Renter", class: "form-check-label") %>
+              </div>
+
+              <div class="form-check">
+                <%= radio_button_tag(
+                      :user_role,
+                      "landlord",
+                      @current_user.user_role == "landlord",
+                      id: "role_landlord",
+                      class: "form-check-input",
+                      disabled: @current_user.user_role.present?
+                    ) %>
+                <%= label_tag(:role_landlord, "Landlord", class: "form-check-label") %>
+              </div>
+            </div>
+          </div>
+
+          <%= form_with(url: "/modify_user", method: "post", local: true) do %>
+            <div class="mb-3">
+              <%= label_tag(:query_email, "Email", class: "form-label") %>
+              <%= email_field_tag(
+                    :query_email,
+                    @current_user.email,
+                    class: "form-control",
+                    placeholder: "Enter your email"
+                  ) %>
+            </div>
+
+            <div class="mb-3">
+              <%= label_tag(:query_name, "Name", class: "form-label") %>
+              <%= text_field_tag(
+                    :query_name,
+                    @current_user.name,
+                    class: "form-control",
+                    placeholder: "Enter your name"
+                  ) %>
+            </div>
+
+            <div class="mb-3">
+              <%= label_tag(:query_password, "Password", class: "form-label") %>
+              <%= password_field_tag(
+                    :query_password,
+                    nil,
+                    class: "form-control",
+                    placeholder: "Choose a new password"
+                  ) %>
+            </div>
+
+            <div class="mb-4">
+              <%= label_tag(:query_password_confirmation, "Password Confirmation", class: "form-label") %>
+              <%= password_field_tag(
+                    :query_password_confirmation,
+                    nil,
+                    class: "form-control",
+                    placeholder: "Confirm your new password"
+                  ) %>
+            </div>
+
+            <div class="d-grid">
+              <%= submit_tag("Update Account", class: "btn btn-primary") %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

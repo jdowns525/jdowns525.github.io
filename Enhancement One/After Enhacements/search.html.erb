@@ -1,0 +1,25 @@
+<div class="container py-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h1 class="h4 mb-0">Search Landlords</h1>
+    </div>
+
+    <div class="card-body">
+      <%= form_with(url: "/landlords", method: "get", local: true, html: { class: "row g-3 align-items-end" }) do %>
+        <div class="col-md-10">
+          <%= label_tag(:search, "Search Landlord Name", class: "form-label") %>
+          <%= text_field_tag(
+                :search,
+                params[:search],
+                placeholder: "Enter landlord name, address, or neighborhood...",
+                class: "form-control"
+              ) %>
+        </div>
+
+        <div class="col-md-2 d-grid">
+          <%= submit_tag("Search", class: "btn btn-primary") %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
