@@ -52,4 +52,4 @@ Taken together, these three enhancements demonstrate that I approach software no
 
 ---
 
-[View Code Review](code-review.md) | [Enhancement One: Software Design and Engineering](Enhancement%20One/enhancement-one.md) | [Enhancement Two: Algorithms and Data Structure](Enhancement%20Two/enhancement-two.md) | [Enhancement Three: Databases](Enhancement%20Three/enhancement-three.md)
+[View Code Review](code-review.md) | [Enhancement One: Software Design and Engineering](enhancement-one/enhancement-one.md) | [Enhancement Two: Algorithms and Data Structure](enhancement-two/enhancement-two.md) | [Enhancement Three: Databases](enhancement-three/enhancement-three.md)
