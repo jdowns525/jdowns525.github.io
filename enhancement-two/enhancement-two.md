@@ -19,8 +19,8 @@ For this enhancement, I focused on redesigning the search algorithm to be more e
 
 ## Artifact Files
 
-- **Before Enhancements:** [View original files](Before%20Enhancements/)
-- **After Enhancements:** [View enhanced files](After%20Enhancements/)
+- **Before Enhancements:** [View original files](before-enhancements/)
+- **After Enhancements:** [View enhanced files](after-enhancements/)
 
 ## Course Outcomes
 

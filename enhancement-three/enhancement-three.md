@@ -21,8 +21,8 @@ I also strengthened the schema by adding required fields, default values, indexe
 
 ## Artifact Files
 
-- **Before Enhancements:** [View original files](Before%20Enhancements/)
-- **After Enhancements:** [View enhanced files](After%20Enhancements/)
+- **Before Enhancements:** [View original files](before-enhancements/)
+- **After Enhancements:** [View enhanced files](after-enhancements/)
 
 ## Course Outcomes
 
