@@ -1,3 +1,32 @@
+# == Schema Information
+#
+# Table name: landlords
+#
+#  id            :integer          not null, primary key
+#  address       :string
+#  caption       :text
+#  city          :string
+#  latitude      :float
+#  longitude     :float
+#  name          :string
+#  neighborhood  :string
+#  postal_code   :string
+#  review_count  :string
+#  reviews_count :integer
+#  stars         :float
+#  state         :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  user_id       :integer
+#
+# Indexes
+#
+#  index_landlords_on_user_id  (user_id)
+#
+# Foreign Keys
+#
+#  user_id  (user_id => users.id)
+#
 class Landlord < ApplicationRecord
   SEARCHABLE_FIELDS = ["name", "address", "neighborhood", "city", "state", "postal_code"].freeze
   MAX_SEARCH_TOKENS = 5

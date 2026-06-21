@@ -1,3 +1,24 @@
+# == Schema Information
+#
+# Table name: reviews
+#
+#  id                      :integer          not null, primary key
+#  city                    :string
+#  communication           :boolean
+#  cool                    :integer
+#  date_occupancy          :date
+#  date_vacancy            :date
+#  maintenance_and_repairs :string
+#  respectfulness          :string
+#  responsiveness          :string
+#  stars                   :integer
+#  text                    :text
+#  useful                  :string
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  landlord_id             :integer
+#  user_id                 :integer
+#
 class Review < ApplicationRecord
   SEARCHABLE_FIELDS = ["text", "city", "useful", "maintenance_and_repairs", "respectfulness", "responsiveness"].freeze
   MAX_SEARCH_TOKENS = 5
