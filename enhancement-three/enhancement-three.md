@@ -21,8 +21,8 @@ I also strengthened the schema by adding required fields, default values, indexe
 
 ## Artifact Files
 
-- **Before Enhancements:** [View original files](before-enhancements/)
-- **After Enhancements:** [View enhanced files](after-enhancements/)
+- **Before Enhancements:** [View original files](https://github.com/jdowns525/jdowns525.github.io/tree/main/enhancement-three/before-enhancements)
+- **After Enhancements:** [View enhanced files](https://github.com/jdowns525/jdowns525.github.io/tree/main/enhancement-three/after-enhancements)
 
 ## Course Outcomes
 
@@ -48,4 +48,4 @@ Overall, this enhancement strengthened my understanding of relational database d
 
 ---
 
-[Back to Home](../index.md) | [Enhancement One: Software Design and Engineering](../Enhancement%20One/enhancement-one.md) | [Enhancement Two: Algorithms and Data Structure](../Enhancement%20Two/enhancement-two.md)
+[Back to Home](../index.md) | [Enhancement One: Software Design and Engineering](../enhancement-one/enhancement-one.md) | [Enhancement Two: Algorithms and Data Structure](../enhancement-two/enhancement-two.md)

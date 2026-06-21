@@ -8,6 +8,7 @@ title: Home
 
 [View Code Review](code-review.md) | [Enhancement One: Software Design and Engineering](enhancement-one/enhancement-one.md) | [Enhancement Two: Algorithms and Data Structure](enhancement-two/enhancement-two.md) | [Enhancement Three: Databases](enhancement-three/enhancement-three.md)
 
+> **Note:** Links to "Before Enhancements" and "After Enhancements" code files will take you directly to the GitHub repository. Use your browser's back button to return to the ePortfolio to Continue browsing. Thank you.
 ---
 
 ## Professional Self-Assessment

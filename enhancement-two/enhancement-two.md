@@ -19,8 +19,8 @@ For this enhancement, I focused on redesigning the search algorithm to be more e
 
 ## Artifact Files
 
-- **Before Enhancements:** [View original files](before-enhancements/)
-- **After Enhancements:** [View enhanced files](after-enhancements/)
+- **Before Enhancements:** [View original files](https://github.com/jdowns525/jdowns525.github.io/tree/main/enhancement-two/before-enhancements)
+- **After Enhancements:** [View enhanced files](https://github.com/jdowns525/jdowns525.github.io/tree/main/enhancement-two/after-enhancements)
 
 ## Course Outcomes
 
@@ -48,4 +48,4 @@ Overall, this enhancement provided valuable experience applying algorithmic thin
 
 ---
 
-[Back to Home](../index.md) | [Enhancement One: Software Design and Engineering](../Enhancement%20One/enhancement-one.md) | [Enhancement Three: Databases](../Enhancement%20Three/enhancement-three.md)
+[Back to Home](../index.md) | [Enhancement One: Software Design and Engineering](../enhancement-one/enhancement-one.md) | [Enhancement Three: Databases](../enhancement-three/enhancement-three.md)

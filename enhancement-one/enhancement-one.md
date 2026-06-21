@@ -21,8 +21,8 @@ For this enhancement, I focused on improving the software design and maintainabi
 
 ## Artifact Files
 
-- **Before Enhancements:** [View original files](before-enhancements/)
-- **After Enhancements:** [View enhanced files](after-enhancements/)
+- **Before Enhancements:** [View original files](https://github.com/jdowns525/jdowns525.github.io/tree/main/enhancement-one/before-enhancements)
+- **After Enhancements:** [View enhanced files](https://github.com/jdowns525/jdowns525.github.io/tree/main/enhancement-one/after-enhancements)
 
 ## Course Outcomes
 
@@ -50,4 +50,4 @@ Overall, this enhancement provided valuable experience applying professional sof
 
 ---
 
-[Back to Home](../index.md) | [Enhancement Two: Algorithms and Data Structure](../Enhancement%20Two/enhancement-two.md) | [Enhancement Three: Databases](../Enhancement%20Three/enhancement-three.md)
+[Back to Home](../index.md) | [Enhancement Two: Algorithms and Data Structure](../enhancement-two/enhancement-two.md) | [Enhancement Three: Databases](../enhancement-three/enhancement-three.md)
